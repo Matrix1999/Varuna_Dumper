@@ -37,8 +37,31 @@
 #include "xh_errno.h"
 #include "xh_log.h"
 
-#define PAGE_START(addr) ((addr) & PAGE_MASK)
-#define PAGE_END(addr)   (PAGE_START(addr + sizeof(uintptr_t) - 1) + PAGE_SIZE)
+static uintptr_t xh_util_page_size(void)
+{
+    static uintptr_t page_size = 0;
+    if(0 == page_size)
+    {
+        long runtime_page_size = sysconf(_SC_PAGESIZE);
+        page_size = runtime_page_size > 0 ? (uintptr_t)runtime_page_size : 4096;
+    }
+    return page_size;
+}
+
+static uintptr_t xh_util_page_start(uintptr_t addr)
+{
+    uintptr_t page_size = xh_util_page_size();
+    return addr & ~(page_size - 1);
+}
+
+static uintptr_t xh_util_page_end(uintptr_t addr)
+{
+    uintptr_t page_size = xh_util_page_size();
+    return xh_util_page_start(addr + sizeof(uintptr_t) - 1) + page_size;
+}
+
+#define PAGE_START(addr) xh_util_page_start((uintptr_t)(addr))
+#define PAGE_END(addr)   xh_util_page_end((uintptr_t)(addr))
 #define PAGE_COVER(addr) (PAGE_END(addr) - PAGE_START(addr))
 
 int xh_util_get_mem_protect(uintptr_t addr, size_t len, const char *pathname, unsigned int *prot)
