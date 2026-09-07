@@ -6,6 +6,11 @@
 #include <string.h>
 #include <fcntl.h>
 
+#if defined(__ANDROID__)
+#include <android/log.h>
+#define ANDROID_LOG_TAG "Dobby"
+#endif
+
 #if defined(_POSIX_VERSION) || defined(__APPLE__)
 #include <unistd.h>
 #include <syslog.h>
@@ -92,8 +97,6 @@ PUBLIC int log_internal_impl(unsigned int level, const char *fmt, ...) {
 
   if (!_syslog_enabled && !_file_log_enabled) {
 #if defined(__ANDROID__)
-#define ANDROID_LOG_TAG "Dobby"
-#include <android/log.h>
     __android_log_vprint(ANDROID_LOG_INFO, ANDROID_LOG_TAG, fmt, ap);
 #else
     vprintf(fmt, ap);
