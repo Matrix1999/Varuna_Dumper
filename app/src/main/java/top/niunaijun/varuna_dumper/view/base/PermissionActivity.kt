@@ -24,7 +24,6 @@ open class PermissionActivity:BaseActivity() {
     protected var requestPermissionCallback: ((Boolean) -> Unit)? = null
 
     protected fun requestStoragePermission() {
-        @RequiresApi(Build.VERSION_CODES.R)
         if (BuildCompat.isR()) {
             if (Environment.isExternalStorageManager()) {
                 //fuck 请求了读取全部文件权限竟然还要申请普通读写权限
