@@ -2,8 +2,8 @@
 // Created by Milk on 2021/5/16.
 //
 
-#ifndef BLACKBOX_DEXDUMP_H
-#define BLACKBOX_DEXDUMP_H
+#ifndef VARUNA_DUMPER_DEXDUMP_H
+#define VARUNA_DUMPER_DEXDUMP_H
 #include <jni.h>
 
 #define HOOK_FUN(ret, func, ...) \
@@ -17,4 +17,4 @@ public:
 };
 
 
-#endif //BLACKBOX_DEXDUMP_H
+#endif //VARUNA_DUMPER_DEXDUMP_H

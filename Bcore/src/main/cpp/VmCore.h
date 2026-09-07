@@ -7,7 +7,7 @@
 
 #include <jni.h>
 
-#define VMCORE_CLASS "top/niunaijun/blackbox/core/VMCore"
+#define VMCORE_CLASS "top/niunaijun/varuna_dumper/core/VMCore"
 
 class VmCore {
 public:

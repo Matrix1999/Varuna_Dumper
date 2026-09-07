@@ -29,17 +29,30 @@
 #define _ptr(p)                   reinterpret_cast<void *>(p)
 #define _align_up(x, n)           (((x) + ((n) - 1)) & ~((n) - 1))
 #define _align_down(x, n)         ((x) & -(n))
-#define _page_size                4096
-#define _page_align(n)            _align_up(static_cast<uintptr_t>(n), _page_size)
-#define _ptr_align(x)             _ptr(_align_down(reinterpret_cast<uintptr_t>(x), _page_size))
-#define _make_rwx(p, n)           ::mprotect(_ptr_align(p), \
-                                              _page_align(_uintval(p) + n) != _page_align(_uintval(p)) ? _page_align(n) + _page_size : _page_align(n), \
-                                              PROT_READ | PROT_WRITE | PROT_EXEC)
 
 using namespace std;
 static int beginOffset = -2;
 static const char *dumpPath;
 std::list<int> dumped;
+
+static bool makeRwx(void *address, size_t length) {
+    if (!address || length == 0) {
+        return false;
+    }
+    long runtimePageSize = sysconf(_SC_PAGESIZE);
+    if (runtimePageSize <= 0) {
+        runtimePageSize = 4096;
+    }
+    auto pageSize = static_cast<uintptr_t>(runtimePageSize);
+    auto start = _align_down(_uintval(address), pageSize);
+    auto end = _align_up(_uintval(address) + length, pageSize);
+    if (mprotect(_ptr(start), end - start,
+                 PROT_READ | PROT_WRITE | PROT_EXEC) != 0) {
+        ALOGE("mprotect failed for ART hook (page size %ld)", runtimePageSize);
+        return false;
+    }
+    return true;
+}
 
 void handleDumpByDexFile(void *dex_file) {
     char magic[8] = {0x64, 0x65, 0x78, 0x0a, 0x30, 0x33, 0x35, 0x00};
@@ -288,18 +301,26 @@ void DexDump::hookDumpDex(JNIEnv *env, jstring dir) {
                                          "_ZN3art11ClassLinker10LoadMethodERKNS_7DexFileERKNS_13ClassAccessor6MethodENS_6HandleINS_6mirror5ClassEEEPNS_9ArtMethodE");
     }
 
-    _make_rwx(loadMethod, _page_size);
-    if (loadMethod) {
-        if (android_get_device_api_level() >= __ANDROID_API_O__) {
-            DobbyHook(loadMethod, (void *) new_LoadMethodO,
-                      (void **) &orig_LoadMethodO);
-        } else if (android_get_device_api_level() >= __ANDROID_API_M__) {
-            DobbyHook(loadMethod, (void *) new_LoadMethodM,
-                      (void **) &orig_LoadMethodM);
-        } else {
-            DobbyHook(loadMethod, (void *) new_LoadMethodL,
-                      (void **) &orig_LoadMethodL);
-        }
+    if (!loadMethod) {
+        ALOGE("ART ClassLinker::LoadMethod symbol is unavailable on this device");
+        return;
+    }
+    if (!makeRwx(loadMethod, 1)) {
+        return;
+    }
+    int hookResult;
+    if (android_get_device_api_level() >= __ANDROID_API_O__) {
+        hookResult = DobbyHook(loadMethod, (void *) new_LoadMethodO,
+                              (void **) &orig_LoadMethodO);
+    } else if (android_get_device_api_level() >= __ANDROID_API_M__) {
+        hookResult = DobbyHook(loadMethod, (void *) new_LoadMethodM,
+                              (void **) &orig_LoadMethodM);
+    } else {
+        hookResult = DobbyHook(loadMethod, (void *) new_LoadMethodL,
+                              (void **) &orig_LoadMethodL);
+    }
+    if (hookResult != 0) {
+        ALOGE("Dobby failed to install ART LoadMethod hook: %d", hookResult);
     }
 }
 

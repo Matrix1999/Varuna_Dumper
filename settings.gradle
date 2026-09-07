@@ -1,4 +1,4 @@
-rootProject.name = "BlackDex"
+rootProject.name = "VarunaDumper"
 include ':Bcore:black-hook'
 include ':Bcore:black-fake'
 include ':Bcore'

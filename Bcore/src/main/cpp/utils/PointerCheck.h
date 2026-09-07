@@ -2,8 +2,8 @@
 // Created by Milk on 2021/5/17.
 //
 
-#ifndef BLACKBOX_POINTERCHECK_H
-#define BLACKBOX_POINTERCHECK_H
+#ifndef VARUNA_DUMPER_POINTERCHECK_H
+#define VARUNA_DUMPER_POINTERCHECK_H
 
 
 class PointerCheck {
@@ -12,4 +12,4 @@ public:
 };
 
 
-#endif //BLACKBOX_POINTERCHECK_H
+#endif //VARUNA_DUMPER_POINTERCHECK_H

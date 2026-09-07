@@ -1,13 +1,13 @@
-# BlackDex
+# VarunaDumper
 
 **[English Version](README_EN.md)**
 
 ![](https://img.shields.io/badge/language-java-brightgreen.svg)
 
-BlackDex是一个运行在Android手机上的脱壳工具，支持5.0～12，无需依赖任何环境任何手机都可以使用，包括模拟器。只需几秒，即可对已安装包括未安装的APK进行脱壳。
+VarunaDumper是一个运行在Android手机上的脱壳工具，支持5.0～12，无需依赖任何环境任何手机都可以使用，包括模拟器。只需几秒，即可对已安装包括未安装的APK进行脱壳。
 
 ## 运行原理
-[博客地址](https://blog.niunaijun.top/index.php/tag/BlackDex/)
+[博客地址](https://blog.niunaijun.top/index.php/tag/VarunaDumper/)
 
 ## 项目声明
 ### 本项目并不针对任何加固，在遇到检测环境等均不处理，仅供安全领域分析用途。项目免费开源仅供学习用途、请勿用于非法用途。否则后果自负！
@@ -52,7 +52,7 @@ BlackDex是一个运行在Android手机上的脱壳工具，支持5.0～12，无
 ## 架构特别说明
 本项目区分32位与64位，目前是2个不同的app，如在Demo已安装列表内无法找到需要开启的app说明不支持，请使用另一个版本。
 
-BlackDex下载：https://github.com/CodingGay/BlackDex/releases
+VarunaDumper下载：https://github.com/Matrix1999/Varuna_Dumper/releases
 
 ## 演示
 ![xx](demonstration.gif)

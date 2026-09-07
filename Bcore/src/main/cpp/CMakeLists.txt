@@ -3,12 +3,12 @@
 
 # Sets the minimum version of CMake required to build the native library.
 
-cmake_minimum_required(VERSION 3.4.1)
+cmake_minimum_required(VERSION 3.22.1)
 
 set(DOBBY_SOURCE_DIR ./Dobby)
 # 指定静态链接，否则默认动态链接
 set(GENERATE_SHARED OFF)
-add_subdirectory(${DOBBY_SOURCE_DIR} blackdex_d.out)
+add_subdirectory(${DOBBY_SOURCE_DIR} varuna_dumper_d.out)
 
 # Creates and names a library, sets it as either STATIC
 # or SHARED, and provides the relative paths to its source code.
@@ -29,7 +29,7 @@ aux_source_directory(hook SRC5)
 aux_source_directory(jnihook SRC6)
 add_compile_options(-w)
 add_library( # Sets the name of the library.
-             blackdex
+             varuna_dumper
 
              # Sets the library as a shared library.
              SHARED
@@ -63,10 +63,14 @@ find_library( # Sets the name of the path variable.
 # build script, prebuilt third-party libraries, or system libraries.
 
 target_link_libraries( # Specifies the target library.
-                        blackdex
-                        blackdex_d
+                        varuna_dumper
+                        varuna_dumper_d
                        # Links the target library to the log library
                        # included in the NDK.
                        ${log-lib}
                        z
         )
+
+# Keep PT_LOAD segments compatible with 16 KB-page Android 15/16 devices while
+# retaining compatibility with the 4 KB-page devices supported by Android 7.
+target_link_options(varuna_dumper PRIVATE "-Wl,-z,max-page-size=16384")

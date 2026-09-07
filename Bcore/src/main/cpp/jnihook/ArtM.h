@@ -2,8 +2,8 @@
 // Created by Milk on 2021/6/5.
 //
 
-#ifndef BLACKDEX_ARTM_H
-#define BLACKDEX_ARTM_H
+#ifndef VARUNA_DUMPER_ARTM_H
+#define VARUNA_DUMPER_ARTM_H
 
 #include <jni.h>
 
@@ -35,4 +35,4 @@ public:
 
     static bool ClearFastNativeFlag(char *art_method);
 };
-#endif //BLACKDEX_ARTM_H
+#endif //VARUNA_DUMPER_ARTM_H

@@ -20,7 +20,7 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keep class top.niunaijun.blackbox.** {*; }
+-keep class top.niunaijun.varuna_dumper.** {*; }
 -keep class top.niunaijun.jnihook.** {*; }
 -keep class reflection.** {*; }
 -keep class android.** {*; }

@@ -4,37 +4,39 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    namespace 'top.niunaijun.varuna_dumper'
+    compileSdk 36
+    flavorDimensions "abi"
 
     defaultConfig {
-        applicationId "top.niunaijun.blackdex"
-        minSdkVersion 21
-        targetSdkVersion 30
+        applicationId "top.niunaijun.varuna_dumper"
+        minSdk 24
+        targetSdk 36
         versionCode 6
         versionName "3.2.0"
 
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        flavorDimensions "BlackDex32"
     }
 
     productFlavors {
-        BlackDex32 {
-            applicationId "top.niunaijun.blackdexa32"
+        VarunaDumper32 {
+            dimension "abi"
+            applicationId "core.base.varuna_dumper32"
             ndk {
                 abiFilters "armeabi-v7a"
             }
-            resValue "string", "app_name", "BlackDex32"
+            resValue "string", "app_name", "Varuna Dumper 32"
         }
 
-        BlackDex64 {
-            applicationId "top.niunaijun.blackdexa64"
+        VarunaDumper64 {
+            dimension "abi"
+            applicationId "core.base.varuna_dumper64"
             ndk {
                 abiFilters "arm64-v8a"
             }
-            resValue "string", "app_name", "BlackDex64"
+            resValue "string", "app_name", "Varuna Dumper 64"
         }
     }
 
@@ -58,32 +60,36 @@ android {
         viewBinding true
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
+}
+
+kotlin {
+    jvmToolchain(17)
 }
 
 dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.5.0'
-    implementation 'androidx.appcompat:appcompat:1.3.0'
-    implementation 'com.google.android.material:material:1.3.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'androidx.preference:preference-ktx:1.1.1'
+    implementation 'androidx.core:core-ktx:1.17.0'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'com.google.android.material:material:1.14.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
+    implementation 'androidx.preference:preference-ktx:1.2.1'
 
     implementation project(':Bcore')
 
     //coroutines
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2"
 
     //viewModel liveData  lifecycle
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.1"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.4"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.9.4"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.9.4"
 
     //third
 
@@ -100,6 +106,6 @@ dependencies {
     //友盟
 
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.7.0'
 }
