@@ -96,7 +96,7 @@ dependencies {
     implementation 'com.afollestad.material-dialogs:core:3.3.0'
     implementation 'com.afollestad.material-dialogs:files:3.2.1'
     //dialog
-    implementation 'com.github.nukc.stateview:kotlin:2.2.0'
+    implementation 'com.github.nukc:StateView:v3.0.6'
     //状态控制控件
     implementation 'com.github.Ferfalk:SimpleSearchView:0.2.0'
     //searchView
